@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Corazón para Leydi</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffe6eb;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* CORAZÓN PRINCIPAL */
+    .heart {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      background: red;
+      transform: rotate(-45deg);
+      margin: 50px auto;
+      box-shadow: 0 0 30px rgba(255,0,0,0.6);
+      animation: pulse 1.5s infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -75px; left: 0; }
+    .heart::after { left: 75px; top: 0; }
+
+    /* TEXTO ENCIMA DEL CORAZÓN */
+    .title {
+      position: absolute;
+      top: 35%;
+      left: 63%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* FRASES */
+    .phrase {
+      position: absolute;
+      font-size: 18px;
+      font-weight: bold;
+      color: #d63384;
+      opacity: 0;
+      animation: fadeOut 2s forwards;
+    }
+
+    /* CORAZONCITOS */
+    .mini-heart {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: red;
+      transform: rotate(-45deg);
+      opacity: 0.8;
+      animation: floatUp 2s forwards;
+    }
+
+    .mini-heart::before,
+    .mini-heart::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .mini-heart::before { top: -7.5px; left: 0; }
+    .mini-heart::after { left: 7.5px; top: 0; }
+
+    /* ANIMACIONES */
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: rotate(-45deg) translateY(0); opacity: 1; }
+      100% { transform: rotate(-45deg) translateY(-60px); opacity: 0; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Contenedor del corazón y el texto -->
+  <div style="position: relative; display: inline-block;">
+    <div class="heart"></div>
+    <div class="title">TE AMO LEYDI</div>
+  </div>
+
+  <script>
+    // FRASES CORTAS PARA DESTACAR A LEYDI
+    const frases = [
+        "Inteligente , segura y hermosa 💓",
+        "Hermosa por dentro y por fuera 💓",
+        "Eres única 💓",
+        "Autentica 💓",
+        "Leal 💓",
+        "Me encanta tu forma de pensar 💓",
+        "Tu risa alegra mi dia 💓",
+        "Te amo Leydi 💓",
+        "Tienes una mirada q destaca entre todas ❤️",
+        "Eres fuerte, pero tambien muy dulce ❤️",
+        "Eres real , y eso vale mucho ❤️ ",
+        "Me gusta tu sinceridad y esa frialdad tuya que me atrae ❤️",
+        "Tu presencia cambia el lugar a mejor 💓",
+        "Tu forma de pensar me inspira y me hace admirarte 💓",
+    ];
+
+    let index = 0; // índice para controlar la frase actual
+
+    document.body.addEventListener("click", () => {
+      // CREAR FRASE
+      const phrase = document.createElement("div");
+      phrase.className = "phrase";
+      phrase.innerText = frases[index];
+      phrase.style.color = "#000"; // letras negras
+
+      // posición aleatoria
+      const margin = 50;
+      const offsetX = margin + Math.random() * (window.innerWidth - 2 * margin);
+      const offsetY = margin + Math.random() * (window.innerHeight - 2 * margin);
+      phrase.style.left = offsetX + "px";
+      phrase.style.top = offsetY + "px";
+
+      document.body.appendChild(phrase);
+      setTimeout(() => phrase.remove(), 9000);
+
+      // CREAR CORAZONCITOS
+      const heart = document.querySelector(".heart");
+      const rect = heart.getBoundingClientRect();
+
+      for (let i = 0; i < 3; i++) {
+        const mini = document.createElement("div");
+        mini.className = "mini-heart";
+        mini.style.left = (rect.left + rect.width / 2 + (Math.random() * 60 - 30)) + "px";
+        mini.style.top = (rect.top + rect.height / 2) + "px";
+        document.body.appendChild(mini);
+        setTimeout(() => mini.remove(), 9000);
+      }
+
+      // ACTUALIZAR ÍNDICE
+      index++;
+      if (index >= frases.length) index = 0; // reiniciar al final
+    });
+  </script>
+</body>
+</html>
